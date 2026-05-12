@@ -87,12 +87,28 @@ const Services = () => {
                   </p>
 
                   {/* Button */}
-                  <button
+                  {/* <button
                     className="btn btn-primary btn-sm"
                     style={{ borderRadius: "20px" }}
                   >
                     Learn More
-                  </button>
+                  </button> */}
+
+
+                   
+                  {/* <button
+  className="btn mt-3"
+  style={{
+    background: "linear-gradient(90deg, #00c6ff, #0072ff)",
+    color: "white",
+    borderRadius: "30px",
+    padding: "10px 28px",
+    border: "none",
+    fontWeight: "600",
+  }}
+>
+  Learn More
+</button> */}
                 </div>
 
               </div>

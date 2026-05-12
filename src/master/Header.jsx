@@ -5,12 +5,15 @@ function Header() {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
   const location = useLocation();
 
+  const hideNavPaths = ["/", "/login", "/role-selection", "/admin-login", "/admin-dashboard"];
+  const shouldHideNav = hideNavPaths.includes(location.pathname);
+
   const handleNavCollapse = () => {
     setIsNavCollapsed(!isNavCollapsed);
   };
 
   const navItems = [
-    { name: "Home", path: "/" },
+    { name: "Home", path: "/home" },
     { name: "About", path: "/about" },
     { name: "Services", path: "/services" },
     { name: "Recycling", path: "/recycle" },
@@ -33,10 +36,10 @@ function Header() {
         {/* LOGO */}
         <Link
           className="navbar-brand fw-bold"
-          to="/"
+          to="/home"
           style={{ fontSize: "22px" }}
         >
-           <span className="text-success">♻</span>
+          <span className="text-success">♻</span>
           Waste <span style={{ color: "#ade6f0", fontWeight: "bold" }}>  Management</span>
         </Link>
 
@@ -51,52 +54,78 @@ function Header() {
 
         {/* NAV LINKS */}
         <div className={`${isNavCollapsed ? "collapse" : ""} navbar-collapse`}>
-          <ul className="navbar-nav ms-auto align-items-lg-center">
+          {!shouldHideNav && (
+            <ul className="navbar-nav ms-auto align-items-lg-center">
 
-            {navItems.map((item, index) => (
-              <li className="nav-item" key={index}>
+              {navItems.map((item, index) => (
+                <li className="nav-item" key={index}>
+                  <Link
+                    to={item.path}
+                    onClick={handleNavCollapse}
+                    className="nav-link"
+                    style={{
+                      margin: "0 10px",
+                      fontWeight: "500",
+                      color:
+                        location.pathname === item.path
+                          ? "#0dccfb"
+                          : "white",
+                      borderBottom:
+                        location.pathname === item.path
+                          ? "2px solid #b9f5e8"
+                          : "none",
+                      transition: "0.3s",
+                    }}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+
+              {/* CTA BUTTONS */}
+              <li className="nav-item ms-lg-3 d-flex gap-2">
                 <Link
-                  to={item.path}
+                  to="/pickup"
                   onClick={handleNavCollapse}
-                  className="nav-link"
+                  className="btn"
                   style={{
-                    margin: "0 10px",
-                    fontWeight: "500",
-                    color:
-                      location.pathname === item.path
-                        ? "#0dccfb"
-                        : "white",
-                    borderBottom:
-                      location.pathname === item.path
-                        ? "2px solid #b9f5e8"
-                        : "none",
-                    transition: "0.3s",
+                    backgroundColor: "#84e4eb",
+                    color: "#07065a",
+                    fontWeight: "bold",
+                    borderRadius: "20px",
+                    padding: "6px 15px",
                   }}
                 >
-                  {item.name}
+                  Request Pickup
+                </Link>
+                <Link
+                  to="/"
+                  onClick={handleNavCollapse}
+                  className="btn"
+                  style={{
+                    backgroundColor: "transparent",
+                    color: "#ade6f0",
+                    border: "2px solid #ade6f0",
+                    fontWeight: "bold",
+                    borderRadius: "20px",
+                    padding: "4px 15px",
+                    transition: "0.3s",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#ade6f0";
+                    e.target.style.color = "#07065a";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "transparent";
+                    e.target.style.color = "#ade6f0";
+                  }}
+                >
+                  Logout
                 </Link>
               </li>
-            ))}
 
-            {/* CTA BUTTON */}
-            <li className="nav-item ms-lg-3">
-              <Link
-                to="/pickup"
-                onClick={handleNavCollapse}
-                className="btn"
-                style={{
-                  backgroundColor: "#84e4eb",
-                  color: "#07065a",
-                  fontWeight: "bold",
-                  borderRadius: "20px",
-                  padding: "6px 15px",
-                }}
-              >
-                Request Pickup
-              </Link>
-            </li>
-
-          </ul>
+            </ul>
+          )}
         </div>
       </div>
     </nav>

@@ -1,153 +1,827 @@
+// import React from "react";
+
+// const Recycling = () => {
+//   const recycleData = [
+//     {
+//       id: 1,
+//       title: "Plastic Recycling",
+//       description:
+//         "We collect and recycle plastic waste to reduce pollution and reuse materials efficiently.",
+//       image:
+//         "https://images.unsplash.com/photo-1604187351574-c75ca79f5807",
+//     },
+//     {
+//       id: 2,
+//       title: "Paper Recycling",
+//       description:
+//         "Paper waste is processed and reused to save trees and reduce environmental impact.",
+//       image:
+//         "https://images.unsplash.com/photo-1504718855392-c0f33b372e72",
+//     },
+//     {
+//       id: 3,
+//       title: "E-Waste Recycling",
+//       description:
+//         "Safe disposal and recycling of electronic waste to prevent toxic hazards.",
+//       image:
+//         "https://images.unsplash.com/photo-1518770660439-4636190af475",
+//     },
+//     {
+//       id: 4,
+//       title: "Glass Recycling",
+//       description:
+//         "We recycle glass waste into reusable materials for construction and packaging.",
+//       image:
+//         "https://th.bing.com/th/id/OIP.Rh8JHt9guOaZQUUyifwAsgHaEK?w=286&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+//     },
+//   ];
+
+//   return (
+//     <section
+//       className="py-5"
+//       style={{
+//         background: "linear-gradient(to right, #e8f5e9, #f1f8f4)",
+//         width: "100%",
+//       }}
+//     >
+//       <div className="container-fluid px-5">
+
+//         {/* 🔥 Heading */}
+//         <div className="text-center mb-5">
+//           <h5 className="text-primary fw-bold" style={{ fontSize: "85px", fontWeight: "bold" , fontcolor: "#101492"}}>
+//             ♻ RECYCLING  PROCESS
+//           </h5>
+//           <h2 className="fw-bold">Recycle Today for a Better Tomorrow</h2>
+//           <p className="text-muted">
+//             Our recycling services help reduce waste and protect the environment.
+//           </p>
+//         </div>
+
+//         {/* 🚀 Cards */}
+//         <div className="row">
+//           {recycleData.map((item) => (
+//             <div className="col-lg-3 col-md-6 mb-4" key={item.id}>
+              
+//               <div
+//                 className="recycle-card"
+//                 style={{
+//                   borderRadius: "15px",
+//                   overflow: "hidden",
+//                   position: "relative",
+//                   cursor: "pointer",
+//                   boxShadow: "0 5px 20px rgba(0,0,0,0.1)",
+//                   transition: "all 0.4s ease",
+//                 }}
+//               >
+
+//                 {/* Image */}
+//                 <img
+//                   src={item.image}
+//                   alt={item.title}
+//                   style={{
+//                     width: "100%",
+//                     height: "250px",
+//                     objectFit: "cover",
+//                     transition: "0.4s",
+//                   }}
+//                 />
+
+//                 {/* Overlay Effect */}
+//                 <div
+//                   style={{
+//                     position: "absolute",
+//                     top: 0,
+//                     left: 0,
+//                     width: "100%",
+//                     height: "100%",
+//                     background:
+//                       "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
+//                     opacity: 0,
+//                     transition: "0.4s",
+//                   }}
+//                   className="overlay"
+//                 ></div>
+
+//                 {/* Content */}
+//                 <div
+//                   style={{
+//                     position: "absolute",
+//                     bottom: "20px",
+//                     left: "20px",
+//                     color: "#fff",
+//                     transform: "translateY(20px)",
+//                     opacity: 0,
+//                     transition: "0.4s",
+//                   }}
+//                   className="content"
+//                 >
+//                   <h5 className="fw-bold">{item.title}</h5>
+//                   <p style={{ fontSize: "14px" }}>{item.description}</p>
+//                   <button className="btn btn-success btn-sm rounded-pill">
+//                     Recycle Now
+//                   </button>
+//                 </div>
+
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+
+//       </div>
+
+//       {/* 🔥 Custom Hover Effects */}
+//       <style>
+//         {`
+//         .recycle-card:hover img {
+//           transform: scale(1.1);
+//         }
+
+//         .recycle-card:hover .overlay {
+//           opacity: 1;
+//         }
+
+//         .recycle-card:hover .content {
+//           opacity: 1;
+//           transform: translateY(0);
+//         }
+//         `}
+//       </style>
+
+//     </section>
+//   );
+// };
+
+// export default Recycling;
+// import React from "react";
+
+// const Recycling = () => {
+//   // ================= RECYCLING DATA =================
+//   const recycleData = [
+//     {
+//       id: 1,
+//       title: "Plastic Recycling",
+//       description:
+//         "We collect and recycle plastic waste to reduce pollution and reuse materials efficiently.",
+//       image:
+//         "https://images.unsplash.com/photo-1604187351574-c75ca79f5807",
+//     },
+//     {
+//       id: 2,
+//       title: "Paper Recycling",
+//       description:
+//         "Paper waste is processed and reused to save trees and reduce environmental impact.",
+//       image:
+//         "https://images.unsplash.com/photo-1504718855392-c0f33b372e72",
+//     },
+//     {
+//       id: 3,
+//       title: "E-Waste Recycling",
+//       description:
+//         "Safe disposal and recycling of electronic waste to prevent toxic hazards.",
+//       image:
+//         "https://images.unsplash.com/photo-1518770660439-4636190af475",
+//     },
+//     {
+//       id: 4,
+//       title: "Glass Recycling",
+//       description:
+//         "We recycle glass waste into reusable materials for construction and packaging.",
+//       image:
+//         "https://th.bing.com/th/id/OIP.Rh8JHt9guOaZQUUyifwAsgHaEK?w=286&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+//     },
+//   ];
+
+//   // ================= STEP BY STEP IDEAS =================
+//   const recyclingSteps = [
+//     {
+//       id: 1,
+//       step: "Step 1",
+//       title: "Collect Plastic Bottles",
+//       description:
+//         "Gather used plastic bottles from your home instead of throwing them away.",
+//       image:
+//         "https://images.unsplash.com/photo-1528323273322-d81458248d40",
+//     },
+//     {
+//       id: 2,
+//       step: "Step 2",
+//       title: "Clean The Waste",
+//       description:
+//         "Wash bottles, cans, and containers properly before recycling them.",
+//       image:
+//         "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b",
+//     },
+//     {
+//       id: 3,
+//       step: "Step 3",
+//       title: "Reuse Creatively",
+//       description:
+//         "Convert waste materials into useful home decor or storage products.",
+//       image:
+//         "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+//     },
+//     {
+//       id: 4,
+//       step: "Step 4",
+//       title: "Save Environment",
+//       description:
+//         "Recycling reduces pollution and helps create a cleaner and greener Earth.",
+//       image:
+//         "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1",
+//     },
+//   ];
+
+//   return (
+//     <section
+//       className="py-5"
+//       style={{
+//         background: "linear-gradient(to right, #e8f5e9, #f1f8f4)",
+//         width: "100%",
+//       }}
+//     >
+//       <div className="container-fluid px-5">
+
+//         {/* ================= HEADING ================= */}
+//         <div className="text-center mb-5">
+//           <h5
+//             className="text-primary fw-bold"
+//             style={{
+//               fontSize: "clamp(40px, 8vw, 85px)",
+//               fontWeight: "bold",
+//             }}
+//           >
+//             ♻ RECYCLING PROCESS
+//           </h5>
+
+//           <h2 className="fw-bold">
+//             Recycle Today for a Better Tomorrow
+//           </h2>
+
+//           <p className="text-muted">
+//             Our recycling services help reduce waste and protect the environment.
+//           </p>
+//         </div>
+
+//         {/* ================= RECYCLING CARDS ================= */}
+//         <div className="row">
+//           {recycleData.map((item) => (
+//             <div className="col-lg-3 col-md-6 mb-4" key={item.id}>
+
+//               <div
+//                 className="recycle-card"
+//                 style={{
+//                   borderRadius: "15px",
+//                   overflow: "hidden",
+//                   position: "relative",
+//                   cursor: "pointer",
+//                   boxShadow: "0 5px 20px rgba(0,0,0,0.1)",
+//                   transition: "all 0.4s ease",
+//                 }}
+//               >
+
+//                 {/* Image */}
+//                 <img
+//                   src={item.image}
+//                   alt={item.title}
+//                   style={{
+//                     width: "100%",
+//                     height: "250px",
+//                     objectFit: "cover",
+//                     transition: "0.4s",
+//                   }}
+//                 />
+
+//                 {/* Overlay */}
+//                 <div
+//                   className="overlay"
+//                   style={{
+//                     position: "absolute",
+//                     top: 0,
+//                     left: 0,
+//                     width: "100%",
+//                     height: "100%",
+//                     background:
+//                       "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
+//                     opacity: 0,
+//                     transition: "0.4s",
+//                   }}
+//                 ></div>
+
+//                 {/* Content */}
+//                 <div
+//                   className="content"
+//                   style={{
+//                     position: "absolute",
+//                     bottom: "20px",
+//                     left: "20px",
+//                     color: "#fff",
+//                     transform: "translateY(20px)",
+//                     opacity: 0,
+//                     transition: "0.4s",
+//                   }}
+//                 >
+//                   <h5 className="fw-bold">
+//                     {item.title}
+//                   </h5>
+
+//                   <p style={{ fontSize: "14px" }}>
+//                     {item.description}
+//                   </p>
+
+//                   <button className="btn btn-success btn-sm rounded-pill">
+//                     Recycle Now
+//                   </button>
+//                 </div>
+
+//               </div>
+
+//             </div>
+//           ))}
+//         </div>
+
+//         {/* ================= STEP BY STEP RECYCLING IDEAS ================= */}
+//         <div className="mt-5">
+
+//           {/* Section Heading */}
+//           <div className="text-center mb-5">
+//             <h2
+//               className="fw-bold"
+//               style={{
+//                 color: "#071057",
+//                 fontSize: "clamp(35px, 6vw, 60px)",
+//               }}
+//             >
+//               Step By Step Recycling Ideas
+//             </h2>
+
+//             <p className="text-muted">
+//               Learn easy and creative ways to recycle waste materials at home.
+//             </p>
+//           </div>
+
+//           {/* Step Cards */}
+//           <div className="row">
+
+//             {recyclingSteps.map((step) => (
+//               <div
+//                 className="col-lg-3 col-md-6 mb-4"
+//                 key={step.id}
+//               >
+
+//                 <div
+//                   style={{
+//                     background: "#fff",
+//                     borderRadius: "15px",
+//                     overflow: "hidden",
+//                     boxShadow: "0 5px 20px rgba(0,0,0,0.1)",
+//                     height: "100%",
+//                     transition: "0.3s",
+//                   }}
+//                   className="idea-card"
+//                 >
+
+//                   {/* Step Image */}
+//                   <img
+//                     src={step.image}
+//                     alt={step.title}
+//                     style={{
+//                       width: "100%",
+//                       height: "220px",
+//                       objectFit: "cover",
+//                     }}
+//                   />
+
+//                   {/* Step Content */}
+//                   <div className="p-4">
+
+//                     <h4 className="fw-bold text-success">
+//                       {step.step}
+//                     </h4>
+
+//                     <h5 className="fw-bold">
+//                       {step.title}
+//                     </h5>
+
+//                     <p className="text-muted">
+//                       {step.description}
+//                     </p>
+
+//                     <button className="btn btn-outline-success rounded-pill btn-sm">
+//                       Learn More
+//                     </button>
+
+//                   </div>
+
+//                 </div>
+
+//               </div>
+//             ))}
+
+//           </div>
+
+//         </div>
+
+//       </div>
+
+//       {/* ================= CUSTOM HOVER EFFECTS ================= */}
+//       <style>
+//         {`
+//         .recycle-card:hover img {
+//           transform: scale(1.1);
+//         }
+
+//         .recycle-card:hover .overlay {
+//           opacity: 1;
+//         }
+
+//         .recycle-card:hover .content {
+//           opacity: 1;
+//           transform: translateY(0);
+//         }
+
+//         .idea-card:hover {
+//           transform: translateY(-10px);
+//         }
+//         `}
+//       </style>
+
+//     </section>
+//   );
+// };
+
+// export default Recycling;
 import React from "react";
 
 const Recycling = () => {
-  const recycleData = [
+  const reuseIdeas = [
     {
-      id: 1,
-      title: "Plastic Recycling",
+      title: "Plastic Bottles",
+      icon: "🧴",
       description:
-        "We collect and recycle plastic waste to reduce pollution and reuse materials efficiently.",
-      image:
-        "https://images.unsplash.com/photo-1604187351574-c75ca79f5807",
+        "Convert old plastic bottles into plant pots, bird feeders, or storage containers.",
     },
     {
-      id: 2,
-      title: "Paper Recycling",
+      title: "Old Newspapers",
+      icon: "📰",
       description:
-        "Paper waste is processed and reused to save trees and reduce environmental impact.",
-      image:
-        "https://images.unsplash.com/photo-1504718855392-c0f33b372e72",
+        "Reuse newspapers for gift wrapping, cleaning glass, or creating paper crafts.",
     },
     {
-      id: 3,
-      title: "E-Waste Recycling",
+      title: "Glass Jars",
+      icon: "🫙",
       description:
-        "Safe disposal and recycling of electronic waste to prevent toxic hazards.",
-      image:
-        "https://images.unsplash.com/photo-1518770660439-4636190af475",
+        "Use glass jars as candle holders, kitchen storage, or decorative lighting.",
     },
     {
-      id: 4,
-      title: "Glass Recycling",
+      title: "E-Waste",
+      icon: "💻",
       description:
-        "We recycle glass waste into reusable materials for construction and packaging.",
-      image:
-        "https://th.bing.com/th/id/OIP.Rh8JHt9guOaZQUUyifwAsgHaEK?w=286&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+        "Donate or recycle old electronics to recover valuable materials safely.",
+    },
+    {
+      title: "Cardboard Boxes",
+      icon: "📦",
+      description:
+        "Turn cardboard into organizers, kids’ projects, or compost material.",
+    },
+    {
+      title: "Old Clothes",
+      icon: "👕",
+      description:
+        "Transform unused clothes into bags, cleaning cloths, or DIY decorations.",
     },
   ];
 
   return (
-    <section
-      className="py-5"
-      style={{
-        background: "linear-gradient(to right, #e8f5e9, #f1f8f4)",
-        width: "100%",
-      }}
-    >
-      <div className="container-fluid px-5">
+    <>
+      <style>{`
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
 
-        {/* 🔥 Heading */}
-        <div className="text-center mb-5">
-          <h5 className="text-primary fw-bold" style={{ fontSize: "85px", fontWeight: "bold" , fontcolor: "#101492"}}>
-            ♻ RECYCLING  PROCESS
-          </h5>
-          <h2 className="fw-bold">Recycle Today for a Better Tomorrow</h2>
-          <p className="text-muted">
-            Our recycling services help reduce waste and protect the environment.
+        body {
+          font-family: "Poppins", sans-serif;
+          background: #f4fff7;
+        }
+
+        .recycling-page {
+          width: 100%;
+          overflow-x: hidden;
+        }
+
+        /* HERO SECTION */
+
+        .hero-section {
+          height: 100vh;
+          background: url("https://images.unsplash.com/photo-1532996122724-e3c354a0b15b")
+            center/cover no-repeat;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .overlay {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: rgba(108, 111, 132, 0.55);
+        }
+
+        .hero-content {
+          position: relative;
+          text-align: center;
+          color: white;
+          max-width: 750px;
+          padding: 20px;
+          z-index: 2;
+          animation: fadeIn 2s ease;
+        }
+
+        .hero-content h1 {
+          font-size: 72px;
+          margin-bottom: 20px;
+          font-weight: bold;
+          line-height: 1.2;
+        }
+
+        .hero-content p {
+          font-size: 24px;
+          line-height: 1.8;
+          margin-bottom: 35px;
+        }
+
+        .hero-btn {
+          padding: 15px 38px;
+          border: none;
+          background: #1700c8;
+          color: white;
+          font-size: 18px;
+          border-radius: 40px;
+          cursor: pointer;
+          transition: 0.4s;
+          font-weight: bold;
+          box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .hero-btn:hover {
+          background: #a5cd14;
+          transform: scale(1.08);
+        }
+
+        /* ABOUT */
+
+        .about-section {
+          padding: 90px 10%;
+          text-align: center;
+        }
+
+        .about-section h2 {
+          font-size: 45px;
+          color: #00796b;
+          margin-bottom: 25px;
+        }
+
+        .about-section p {
+          font-size: 20px;
+          line-height: 1.9;
+          max-width: 950px;
+          margin: auto;
+          color: #444;
+        }
+
+        /* REUSE SECTION */
+
+        .reuse-section {
+          padding: 90px 8%;
+          background: linear-gradient(to right, #e8f5e9, #f1f8e9);
+        }
+
+        .reuse-section h2 {
+          text-align: center;
+          font-size: 48px;
+          margin-bottom: 65px;
+          color: #1b5e20;
+        }
+
+        .reuse-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 35px;
+        }
+
+        .reuse-card {
+          background: white;
+          padding: 40px 30px;
+          border-radius: 25px;
+          text-align: center;
+          transition: 0.4s;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          cursor: pointer;
+        }
+
+        .reuse-card:hover {
+          transform: translateY(-12px);
+          background: #00c853;
+          color: white;
+        }
+
+        .reuse-card .icon {
+          font-size: 65px;
+          margin-bottom: 20px;
+        }
+
+        .reuse-card h3 {
+          font-size: 30px;
+          margin-bottom: 15px;
+        }
+
+        .reuse-card p {
+          font-size: 17px;
+          line-height: 1.8;
+        }
+
+        /* BENEFITS */
+
+        .benefits-section {
+          padding: 90px 8%;
+          background: #ffffff;
+        }
+
+        .benefits-section h2 {
+          text-align: center;
+          font-size: 48px;
+          margin-bottom: 55px;
+          color: #00695c;
+        }
+
+        .benefits-container {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 30px;
+        }
+
+        .benefit-box {
+          background: #f9f9f9;
+          padding: 35px;
+          border-radius: 20px;
+          text-align: center;
+          transition: 0.4s;
+          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit-box:hover {
+          transform: scale(1.05);
+          background: #00796b;
+          color: white;
+        }
+
+        .benefit-box h3 {
+          margin-bottom: 15px;
+          font-size: 25px;
+        }
+
+        .benefit-box p {
+          font-size: 17px;
+          line-height: 1.7;
+        }
+
+        /* QUOTE */
+
+        .quote-section {
+          padding: 110px 10%;
+          background: linear-gradient(to right, #00796b, #00c853);
+          text-align: center;
+          color: white;
+        }
+
+        .quote-section h2 {
+          font-size: 44px;
+          line-height: 1.7;
+          font-weight: bold;
+        }
+
+        /* ANIMATION */
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(40px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 768px) {
+          .hero-content h1 {
+            font-size: 46px;
+          }
+
+          .hero-content p {
+            font-size: 18px;
+          }
+
+          .reuse-section h2,
+          .benefits-section h2,
+          .about-section h2 {
+            font-size: 34px;
+          }
+
+          .quote-section h2 {
+            font-size: 28px;
+          }
+        }
+      `}</style>
+
+      <div className="recycling-page">
+        
+        {/* HERO SECTION */}
+        <section className="hero-section">
+          <div className="overlay"></div>
+
+          <div className="hero-content">
+            <h1>♻️ Recycle Today, Save Tomorrow</h1>
+
+            <p>
+              Small recycling habits can create a cleaner planet and a brighter
+              future for everyone.
+            </p>
+
+            <button className="hero-btn">Start Recycling</button>
+          </div>
+        </section>
+
+        {/* ABOUT SECTION */}
+        <section className="about-section">
+          <h2>Why Recycling Matters?</h2>
+
+          <p>
+            Recycling helps reduce pollution, conserve natural resources, save
+            energy, and protect wildlife. Reusing waste materials creatively
+            also reduces landfill waste and promotes sustainability.
           </p>
-        </div>
+        </section>
 
-        {/* 🚀 Cards */}
-        <div className="row">
-          {recycleData.map((item) => (
-            <div className="col-lg-3 col-md-6 mb-4" key={item.id}>
-              
-              <div
-                className="recycle-card"
-                style={{
-                  borderRadius: "15px",
-                  overflow: "hidden",
-                  position: "relative",
-                  cursor: "pointer",
-                  boxShadow: "0 5px 20px rgba(0,0,0,0.1)",
-                  transition: "all 0.4s ease",
-                }}
-              >
+        {/* REUSE SECTION */}
+        <section className="reuse-section">
+          <h2>🌱 Creative Ways to Reuse Waste</h2>
 
-                {/* Image */}
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  style={{
-                    width: "100%",
-                    height: "250px",
-                    objectFit: "cover",
-                    transition: "0.4s",
-                  }}
-                />
+          <div className="reuse-grid">
+            {reuseIdeas.map((item, index) => (
+              <div className="reuse-card" key={index}>
+                <div className="icon">{item.icon}</div>
 
-                {/* Overlay Effect */}
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    background:
-                      "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
-                    opacity: 0,
-                    transition: "0.4s",
-                  }}
-                  className="overlay"
-                ></div>
+                <h3>{item.title}</h3>
 
-                {/* Content */}
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: "20px",
-                    left: "20px",
-                    color: "#fff",
-                    transform: "translateY(20px)",
-                    opacity: 0,
-                    transition: "0.4s",
-                  }}
-                  className="content"
-                >
-                  <h5 className="fw-bold">{item.title}</h5>
-                  <p style={{ fontSize: "14px" }}>{item.description}</p>
-                  <button className="btn btn-success btn-sm rounded-pill">
-                    Recycle Now
-                  </button>
-                </div>
-
+                <p>{item.description}</p>
               </div>
+            ))}
+          </div>
+        </section>
+
+        {/* BENEFITS SECTION */}
+        <section className="benefits-section">
+          <h2>♻️ Benefits of Recycling</h2>
+
+          <div className="benefits-container">
+            <div className="benefit-box">
+              <h3>🌍 Cleaner Environment</h3>
+              <p>Reduces waste pollution in landfills and oceans.</p>
             </div>
-          ))}
-        </div>
 
+            <div className="benefit-box">
+              <h3>💡 Saves Energy</h3>
+              <p>Manufacturing from recycled materials uses less energy.</p>
+            </div>
+
+            <div className="benefit-box">
+              <h3>🌳 Protects Nature</h3>
+              <p>Conserves forests, water, and natural resources.</p>
+            </div>
+
+            <div className="benefit-box">
+              <h3>🏭 Reduces Pollution</h3>
+              <p>Helps lower harmful greenhouse gas emissions.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* QUOTE SECTION */}
+        <section className="quote-section">
+          <h2>
+            “The Earth is what we all have in common. Let’s protect it
+            together.”
+          </h2>
+        </section>
       </div>
-
-      {/* 🔥 Custom Hover Effects */}
-      <style>
-        {`
-        .recycle-card:hover img {
-          transform: scale(1.1);
-        }
-
-        .recycle-card:hover .overlay {
-          opacity: 1;
-        }
-
-        .recycle-card:hover .content {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        `}
-      </style>
-
-    </section>
+    </>
   );
 };
 
