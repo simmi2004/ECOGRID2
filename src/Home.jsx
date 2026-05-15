@@ -1,213 +1,292 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-import { useNavigate } from "react-router-dom";
+const slides = [
+  {
+    id: 1,
+    badge: "🌍 Smart Waste Solutions",
+    heading: "Managing Waste,",
+    highlight: "Protecting Earth",
+    sub: "Join thousands of communities building a cleaner, greener future with intelligent waste management.",
+    cta: { label: "Get Started", path: "/pickup" },
+    ctaSecondary: { label: "Learn More", path: "/about" },
+    bg: "linear-gradient(135deg, rgba(10,20,60,0.82) 0%, rgba(13,148,136,0.55) 100%)",
+    img: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=1600&q=80",
+    accent: "#14b8a6",
+  },
+  {
+    id: 2,
+    badge: "♻️ Recycling First",
+    heading: "Reduce, Reuse,",
+    highlight: "Recycle Smart",
+    sub: "Small actions create massive impact. Our recycling programs turn waste into valuable resources every day.",
+    cta: { label: "Explore Recycling", path: "/recycle" },
+    ctaSecondary: { label: "Our Services", path: "/services" },
+    bg: "linear-gradient(135deg, rgba(5,30,20,0.85) 0%, rgba(5,150,105,0.6) 100%)",
+    img: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1600&q=80",
+    accent: "#10b981",
+  },
+  {
+    id: 3,
+    badge: "🚛 Fast & Reliable",
+    heading: "Doorstep Pickup,",
+    highlight: "Zero Hassle",
+    sub: "Schedule a pickup in seconds. Our fleet arrives on time, every time — keeping your space clean effortlessly.",
+    cta: { label: "Request Pickup", path: "/pickup" },
+    ctaSecondary: { label: "Contact Us", path: "/contact" },
+    bg: "linear-gradient(135deg, rgba(15,23,42,0.88) 0%, rgba(30,58,95,0.75) 100%)",
+    img: "https://images.unsplash.com/photo-1528323273322-d81458248d40?w=1600&q=80",
+    accent: "#60a5fa",
+  },
+];
+
 const Home = () => {
-  const navigate = useNavigate();
+  const [current, setCurrent] = useState(0);
+  const [animating, setAnimating] = useState(false);
 
-const handleGetStarted = () => {
-  const user = localStorage.getItem("token");
+  // Auto-advance every 5s
+  useEffect(() => {
+    const timer = setInterval(() => goTo((current + 1) % slides.length), 5000);
+    return () => clearInterval(timer);
+  }, [current]);
 
-  if (user) {
-    navigate("/dashboard");
-  } else {
-    navigate("/login");
-  }
-};
+  const goTo = (index) => {
+    if (animating) return;
+    setAnimating(true);
+    setTimeout(() => {
+      setCurrent(index);
+      setAnimating(false);
+    }, 400);
+  };
+
+  const slide = slides[current];
+
   return (
-    
-    <div style={{ backgroundColor: "#eef4ff" }}>
+    <div style={{ backgroundColor: "#f8fafc" }}>
 
-      {/* NAVBAR */}
-      <nav
-        className="navbar navbar-expand-lg shadow-sm"
-        style={{ background: "linear-gradient(to right, #0b5ed7, #0a58ca)" }}
-      >
-        <div className="container-fluid px-4">
-          <a className="navbar-brand text-white fw-bold fs-4" href="#">
-            <marquee behavior="alternate" direction="center" scrollamount="5">
-              <span style={{ color: "#a9c7ff" }}>Eco</span>
-              <span style={{ color: "#f9f92e" }}>Waste</span>
-            </marquee>
-          </a>
+      {/* ── HERO SLIDER ── */}
+      <div style={{ position: "relative", height: "92vh", overflow: "hidden" }}>
+
+        {/* Background image */}
+        <div
+          key={current}
+          style={{
+            position: "absolute", inset: 0,
+            backgroundImage: `url("${slide.img}")`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            transition: "opacity 0.6s ease",
+            opacity: animating ? 0 : 1,
+          }}
+        />
+
+        {/* Gradient overlay */}
+        <div style={{ position: "absolute", inset: 0, background: slide.bg }} />
+
+        {/* Decorative circles */}
+        <div style={{
+          position: "absolute", top: "-120px", right: "-120px",
+          width: "500px", height: "500px", borderRadius: "50%",
+          background: `radial-gradient(circle, ${slide.accent}22 0%, transparent 70%)`,
+          pointerEvents: "none",
+        }} />
+        <div style={{
+          position: "absolute", bottom: "-80px", left: "-80px",
+          width: "350px", height: "350px", borderRadius: "50%",
+          background: `radial-gradient(circle, ${slide.accent}18 0%, transparent 70%)`,
+          pointerEvents: "none",
+        }} />
+
+        {/* Slide content */}
+        <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", alignItems: "center" }}>
+          <div className="container">
+            <div style={{
+              maxWidth: "680px",
+              opacity: animating ? 0 : 1,
+              transform: animating ? "translateY(24px)" : "translateY(0)",
+              transition: "all 0.55s cubic-bezier(0.16,1,0.3,1)",
+            }}>
+
+              {/* Badge */}
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: "8px",
+                background: "rgba(255,255,255,0.12)",
+                backdropFilter: "blur(8px)",
+                border: `1px solid ${slide.accent}55`,
+                borderRadius: "50px",
+                padding: "6px 18px",
+                fontSize: "0.82rem", fontWeight: "600",
+                color: "#fff", letterSpacing: "0.06em",
+                marginBottom: "24px",
+              }}>
+                {slide.badge}
+              </div>
+
+              {/* Heading */}
+              <h1 style={{
+                fontSize: "clamp(2.4rem, 5vw, 4rem)", fontWeight: "800",
+                lineHeight: "1.1", color: "#ffffff",
+                letterSpacing: "-0.03em", marginBottom: "0",
+              }}>
+                {slide.heading}
+              </h1>
+              <h1 style={{
+                fontSize: "clamp(2.4rem, 5vw, 4rem)", fontWeight: "800",
+                lineHeight: "1.2",
+                background: `linear-gradient(90deg, ${slide.accent}, #fff)`,
+                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                backgroundClip: "text", letterSpacing: "-0.03em", marginBottom: "20px",
+              }}>
+                {slide.highlight}
+              </h1>
+
+              {/* Subtext */}
+              <p style={{
+                fontSize: "1.05rem", color: "rgba(255,255,255,0.78)",
+                lineHeight: "1.75", maxWidth: "520px", marginBottom: "36px",
+              }}>
+                {slide.sub}
+              </p>
+
+              {/* CTA Buttons */}
+              <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
+                <Link to={slide.cta.path} style={{
+                  background: `linear-gradient(135deg, ${slide.accent}, #0f172a)`,
+                  color: "#fff", fontWeight: "700", fontSize: "0.92rem",
+                  padding: "13px 28px", borderRadius: "50px", textDecoration: "none",
+                  boxShadow: `0 6px 24px ${slide.accent}55`,
+                  transition: "transform 0.2s, box-shadow 0.2s",
+                  display: "inline-flex", alignItems: "center", gap: "8px",
+                }}
+                  onMouseOver={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 10px 30px ${slide.accent}66`; }}
+                  onMouseOut={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = `0 6px 24px ${slide.accent}55`; }}
+                >
+                  {slide.cta.label} →
+                </Link>
+                <Link to={slide.ctaSecondary.path} style={{
+                  background: "rgba(255,255,255,0.1)", backdropFilter: "blur(8px)",
+                  color: "#fff", fontWeight: "600", fontSize: "0.92rem",
+                  padding: "12px 26px", borderRadius: "50px", textDecoration: "none",
+                  border: "1.5px solid rgba(255,255,255,0.3)",
+                  transition: "background 0.2s, border-color 0.2s",
+                }}
+                  onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.18)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.6)"; }}
+                  onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.1)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; }}
+                >
+                  {slide.ctaSecondary.label}
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
-      </nav>
 
-      {/* HERO SECTION */}
-      {/* <div
-        className="hero-wrap d-flex align-items-center justify-content-center text-center text-white"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(120, 172, 240, 0.5), rgba(166, 228, 232, 0.15)), url("https://images.unsplash.com/photo-1581578731548-c64695cc6952")',
-          height: "90vh",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div>
-          <h1 className="display-3 fw-bold">
-             <span style={{ color: "#140a39", fontWeight: "bold" }}>Smart Waste Management 🌍</span>
-          </h1>
-          <p className="lead">
-            Clean Cities | Green Future | Sustainable Living
-          </p>
-          <button className="btn btn-light px-4 py-2 mt-3 fw-semibold shadow">
-            Get Started
+        {/* Dot indicators */}
+        <div style={{
+          position: "absolute", bottom: "36px", left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex", gap: "10px", zIndex: 3,
+        }}>
+          {slides.map((_, i) => (
+            <button key={i} onClick={() => goTo(i)} style={{
+              width: i === current ? "32px" : "10px", height: "10px",
+              borderRadius: "5px",
+              background: i === current ? slide.accent : "rgba(255,255,255,0.4)",
+              border: "none", cursor: "pointer",
+              transition: "all 0.35s ease", padding: 0,
+            }} />
+          ))}
+        </div>
+
+        {/* Prev / Next arrows */}
+        {[
+          { dir: "prev", symbol: "‹", pos: { left: "24px" }, idx: (current - 1 + slides.length) % slides.length },
+          { dir: "next", symbol: "›", pos: { right: "24px" }, idx: (current + 1) % slides.length },
+        ].map(({ dir, symbol, pos, idx }) => (
+          <button key={dir} onClick={() => goTo(idx)} style={{
+            position: "absolute", top: "50%", transform: "translateY(-50%)", ...pos,
+            zIndex: 3, width: "48px", height: "48px", borderRadius: "50%",
+            background: "rgba(255,255,255,0.12)", backdropFilter: "blur(8px)",
+            border: "1.5px solid rgba(255,255,255,0.25)", color: "#fff",
+            fontSize: "1.6rem", lineHeight: 1, cursor: "pointer",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            transition: "background 0.2s",
+          }}
+            onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.22)"}
+            onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,0.12)"}
+          >
+            {symbol}
           </button>
-        </div>
-      </div> */}
-      <div
-  id="carouselExampleAutoplaying"
-  className="carousel slide carousel-fade"
-  data-bs-ride="carousel"
->
-  <div className="carousel-inner">
-
-    {/* Slide 1 */}
-    <div
-      className="carousel-item active d-flex align-items-center justify-content-center text-center text-white"
-      style={{
-        height: "90vh",
-        backgroundImage:
-          'linear-gradient(rgba(151, 191, 242, 0.5), rgba(43, 18, 18, 0.4)), url("https://images.unsplash.com/photo-1501004318641-b39e6451bec6")',
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div>
-        <h1 className="display-3 fw-bold" style={{ color: "#09094b" }}>
-          Smart Waste Management 
-          <pre>🌍 </pre>
-        </h1>
-        <p className="lead">Clean Cities | Green Future</p>
-        {/* <button className="btn btn-light px-4 py-2 mt-3 fw-semibold">
-          Get Started
-        </button> */}
-        <button
-  className="btn btn-light px-4 py-2 mt-3 fw-semibold"
-  onClick={handleGetStarted}
->Get Started</button>
+        ))}
       </div>
-    </div>
 
-    {/* Slide 2 */}
-    <div
-      className="carousel-item d-flex align-items-center justify-content-center text-center text-white"
-      style={{
-        height: "90vh",
-        backgroundImage:
-          'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.4)), url("https://images.unsplash.com/photo-1581578731548-c64695cc6952")',
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div>
-        <h1 className="display-3 fw-bold" style={{ color: "#f0f0fa" }}>
-          Reduce Waste ♻️
-        </h1>
-        <p className="lead">Small steps create big impact</p>
-        <button className="btn btn-success px-4 py-2 mt-3 fw-semibold">
-          Learn More
-        </button>
-      </div>
-    </div>
-
-    {/* Slide 3 */}
-    <div
-      className="carousel-item d-flex align-items-center justify-content-center text-center text-white"
-      style={{
-        height: "90vh",
-        backgroundImage:
-          'linear-gradient(rgba(0,100,0,0.5), rgba(0,0,0,0.4)), url("https://images.unsplash.com/photo-1528323273322-d81458248d40")',
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div>
-        <h1 className="display-3 fw-bold" style={{ color: "#f0f0fa" }}>
-          Recycle Smart 🌱
-        </h1>
-        <p className="lead">Build a sustainable future</p>
-        <button className="btn btn-warning px-4 py-2 mt-3 fw-semibold">
-          Join Now
-        </button>
-      </div>
-    </div>
-
-  </div>
-
-  {/* Controls */}
-  <button
-    className="carousel-control-prev"
-    type="button"
-    data-bs-target="#carouselExampleAutoplaying"
-    data-bs-slide="prev"
-  >
-    <span className="carousel-control-prev-icon"></span>
-  </button>
-
-  <button
-    className="carousel-control-next"
-    type="button"
-    data-bs-target="#carouselExampleAutoplaying"
-    data-bs-slide="next"
-  >
-    <span className="carousel-control-next-icon"></span>
-  </button>
-</div>
-
-      {/* FEATURES */}
-      <section className="container-fluid px-5 py-5 text-center">
-        {/* <h2 className="text-primary fw-bold mb-5">Why Choose Us</h2> */}
-        <h5 className="text-primary fw-bold" style={{ fontSize: "85px", fontWeight: "bold" , fontcolor: "#101492"}}>
-          WHY CHOOSE US
-          </h5>
-
-        <div className="row">
+      {/* ── WHY CHOOSE US ── */}
+      <section className="container-fluid px-5 py-5 text-center" style={{ background: "#f8fafc" }}>
+        <p style={{ color: "#14b8a6", fontWeight: "700", letterSpacing: "0.15em", fontSize: "0.8rem", textTransform: "uppercase" }}>Our Strengths</p>
+        <h2 style={{ fontWeight: "800", color: "#0f172a", fontSize: "2.4rem", letterSpacing: "-0.03em", marginBottom: "48px" }}>Why Choose Us</h2>
+        <div className="row g-4">
           {[
-            { icon: "♻", title: "Eco Friendly" },
-            { icon: "🚛", title: "Fast Pickup" },
-            { icon: "📍", title: "Live Tracking" },
-            { icon: "📊", title: "Smart Analytics" },
+            { icon: "♻", title: "Eco Friendly",     desc: "100% sustainable processes that protect the environment." },
+            { icon: "🚛", title: "Fast Pickup",      desc: "On-time collection with real-time scheduling." },
+            { icon: "📍", title: "Live Tracking",    desc: "Track your pickup from request to completion." },
+            { icon: "📊", title: "Smart Analytics",  desc: "Data-driven insights to optimize waste reduction." },
           ].map((item, i) => (
-            <div className="col-md-3 mb-4" key={i}>
-              <div className="p-4 shadow rounded bg-white h-100 feature-box">
-                <h1>{item.icon}</h1>
-                <h5 className="fw-bold text-primary">{item.title}</h5>
+            <div className="col-md-3 mb-2" key={i}>
+              <div style={{
+                background: "#fff", borderRadius: "20px", padding: "36px 24px",
+                boxShadow: "0 4px 24px rgba(15,23,42,0.07)",
+                border: "1px solid rgba(15,23,42,0.06)",
+                transition: "all 0.3s ease", height: "100%",
+              }}
+                onMouseOver={e => { e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.boxShadow = "0 12px 40px rgba(20,184,166,0.15)"; e.currentTarget.style.borderColor = "#14b8a6"; }}
+                onMouseOut={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 24px rgba(15,23,42,0.07)"; e.currentTarget.style.borderColor = "rgba(15,23,42,0.06)"; }}
+              >
+                <div style={{
+                  width: "64px", height: "64px", borderRadius: "16px",
+                  background: "linear-gradient(135deg, #f0fdfa, #ccfbf1)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: "28px", margin: "0 auto 20px",
+                }}>
+                  {item.icon}
+                </div>
+                <h5 style={{ fontWeight: "700", color: "#0f172a", marginBottom: "10px" }}>{item.title}</h5>
+                <p style={{ color: "#64748b", fontSize: "0.9rem", lineHeight: "1.6", margin: 0 }}>{item.desc}</p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* SERVICES IMAGE CARDS */}
-      <section className="container-fluid px-5 py-5">
-         {/* <h5 className="text-primary fw-bold" style={{ fontSize: "85px", fontWeight: "bold" , fontcolor: "#101492"}}>
-            OUR SERVICES
-          </h5> */}
-           <h2 className="text-center text-primary fw-bold mb-4" style={{ fontSize: "85px", fontWeight: "bold" , fontcolor: "#101492"}}>
-            OUR SERVICES
-        </h2>
-
-        <div className="row">
+      {/* ── OUR SERVICES ── */}
+      <section className="container-fluid px-5 py-5" style={{ background: "#fff" }}>
+        <div className="text-center mb-5">
+          <p style={{ color: "#14b8a6", fontWeight: "700", letterSpacing: "0.15em", fontSize: "0.8rem", textTransform: "uppercase" }}>What We Do</p>
+          <h2 style={{ fontWeight: "800", color: "#0f172a", fontSize: "2.4rem", letterSpacing: "-0.03em" }}>Our Services</h2>
+        </div>
+        <div className="row g-4">
           {[
-            {
-              title: "Garbage Collection",
-              img: "https://images.unsplash.com/photo-1604187351574-c75ca79f5807",
-            },
-            {
-              title: "Recycling",
-              img: "https://images.unsplash.com/photo-1595273670150-bd0c3c392e46",
-            },
-            {
-              title: "E-Waste",
-              img: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-            },
-          ].map((item, index) => (
-            <div className="col-md-4 mb-4" key={index}>
-              <div className="service-card">
-                <img src={item.img} alt={item.title} />
-                <div className="overlay">
-                  <h4>{item.title}</h4>
+            { title: "Garbage Collection",  desc: "Regular doorstep collection for households and businesses.", img: "https://images.unsplash.com/photo-1604187351574-c75ca79f5807?w=800&q=80" },
+            { title: "Recycling Programs",  desc: "Turning waste into reusable materials through smart sorting.",  img: "https://images.unsplash.com/photo-1595273670150-bd0c3c392e46?w=800&q=80" },
+            { title: "E-Waste Disposal",    desc: "Safe and certified disposal of electronic waste.",             img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80" },
+          ].map((item, i) => (
+            <div className="col-md-4" key={i}>
+              <div style={{
+                borderRadius: "20px", overflow: "hidden",
+                boxShadow: "0 4px 24px rgba(15,23,42,0.1)",
+                position: "relative", cursor: "pointer",
+                transition: "transform 0.3s ease",
+              }}
+                onMouseOver={e => e.currentTarget.style.transform = "translateY(-6px)"}
+                onMouseOut={e => e.currentTarget.style.transform = "translateY(0)"}
+              >
+                <img src={item.img} alt={item.title} style={{ width: "100%", height: "280px", objectFit: "cover", display: "block" }} />
+                <div style={{
+                  position: "absolute", inset: 0,
+                  background: "linear-gradient(to top, rgba(10,20,50,0.88) 0%, transparent 55%)",
+                  display: "flex", flexDirection: "column",
+                  justifyContent: "flex-end", padding: "24px",
+                }}>
+                  <h5 style={{ color: "#fff", fontWeight: "700", marginBottom: "6px" }}>{item.title}</h5>
+                  <p style={{ color: "rgba(255,255,255,0.72)", fontSize: "0.85rem", margin: 0 }}>{item.desc}</p>
                 </div>
               </div>
             </div>
@@ -215,323 +294,116 @@ const handleGetStarted = () => {
         </div>
       </section>
 
-      {/* PROCESS */}
-      <section className="container-fluid px-5 py-5 bg-white text-center">
-        {/* <h2 className="text-primary fw-bold mb-5">How It Works</h2> */}
-        <h5 className="text-primary fw-bold" style={{ fontSize: "85px", fontWeight: "bold" , fontcolor: "#101492"}}>
-            HOW IT WORKS
-          </h5>
-
-        <div className="row">
+      {/* ── HOW IT WORKS ── */}
+      <section className="container-fluid px-5 py-5 text-center" style={{ background: "#f8fafc" }}>
+        <p style={{ color: "#14b8a6", fontWeight: "700", letterSpacing: "0.15em", fontSize: "0.8rem", textTransform: "uppercase" }}>Simple Process</p>
+        <h2 style={{ fontWeight: "800", color: "#0f172a", fontSize: "2.4rem", letterSpacing: "-0.03em", marginBottom: "48px" }}>How It Works</h2>
+        <div className="row g-4">
           {[
-            "Request Pickup 📲",
-            "We Collect Waste 🚛",
-            "Recycle Process ♻",
-            "Clean Environment 🌱",
-          ].map((step, i) => (
+            { step: "01", icon: "📲", title: "Request Pickup",    desc: "Schedule a pickup from your phone in under a minute." },
+            { step: "02", icon: "🚛", title: "We Collect",        desc: "Our team arrives on time and handles everything." },
+            { step: "03", icon: "♻",  title: "Recycle & Process", desc: "Waste is sorted and processed responsibly." },
+            { step: "04", icon: "🌱", title: "Clean Environment", desc: "Your community stays clean and green." },
+          ].map((item, i) => (
             <div className="col-md-3" key={i}>
-              <div className="p-4 shadow rounded step-box">
-                <h5>{step}</h5>
+              <div style={{
+                background: "#fff", borderRadius: "20px", padding: "32px 20px",
+                boxShadow: "0 4px 20px rgba(15,23,42,0.06)",
+                border: "1px solid rgba(15,23,42,0.06)",
+                position: "relative", transition: "all 0.3s ease",
+              }}
+                onMouseOver={e => { e.currentTarget.style.transform = "translateY(-5px)"; e.currentTarget.style.borderColor = "#14b8a6"; }}
+                onMouseOut={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.borderColor = "rgba(15,23,42,0.06)"; }}
+              >
+                <div style={{
+                  position: "absolute", top: "16px", right: "20px",
+                  fontSize: "0.75rem", fontWeight: "800",
+                  color: "#e2e8f0", letterSpacing: "0.05em",
+                }}>{item.step}</div>
+                <div style={{ fontSize: "2.4rem", marginBottom: "16px" }}>{item.icon}</div>
+                <h6 style={{ fontWeight: "700", color: "#0f172a", marginBottom: "8px" }}>{item.title}</h6>
+                <p style={{ color: "#64748b", fontSize: "0.88rem", lineHeight: "1.6", margin: 0 }}>{item.desc}</p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* PICKUP FORM */}
-      {/* <section className="container-fluid px-5 py-5">
-        {/* <h2 className="text-center text-primary fw-bold mb-4">
-          Request Waste Pickup
-        </h2> */}
-        <h2 className="text-center text-primary fw-bold mb-4" style={{ fontSize: "85px", fontWeight: "bold" , fontcolor: "#101492"}}>
-            REQUEST WASTE PICK UP
-        </h2>
-
-        <div className="row align-items-center">
-          <div className="col-md-6">
-            <img
-              src="https://images.unsplash.com/photo-1528323273322-d81458248d40"
-              className="img-fluid rounded shadow"
-              alt="Pickup"
-            />
+      {/* ── STATS ── */}
+      <section style={{
+        background: "linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)",
+        padding: "80px 0", position: "relative", overflow: "hidden",
+      }}>
+        <div style={{
+          position: "absolute", top: "-100px", right: "-100px",
+          width: "400px", height: "400px", borderRadius: "50%",
+          background: "rgba(20,184,166,0.08)", pointerEvents: "none",
+        }} />
+        <div className="container">
+          <div className="text-center mb-5">
+            <p style={{ color: "#14b8a6", fontWeight: "700", letterSpacing: "0.15em", fontSize: "0.8rem", textTransform: "uppercase" }}>Our Impact</p>
+            <h2 style={{ fontWeight: "800", color: "#fff", fontSize: "2.4rem", letterSpacing: "-0.03em" }}>Creating a Cleaner Future</h2>
           </div>
-
-          <div className="col-md-6">
-            <form className="p-4 shadow rounded bg-white">
-              <input className="form-control mb-3" placeholder="Location" />
-              <input className="form-control mb-3" placeholder="Waste Type" />
-              <input type="date" className="form-control mb-3" />
-              <button className="btn btn-primary w-100">
-                Schedule Pickup
-              </button>
-            </form>
+          <div className="row g-4 text-center">
+            {[
+              { num: "500+",  label: "Successful Pickups", icon: "🚛" },
+              { num: "1200+", label: "Happy Customers",    icon: "👨‍👩‍👧" },
+              { num: "300+",  label: "Tons Recycled",      icon: "♻️" },
+              { num: "20+",   label: "Areas Covered",      icon: "🌍" },
+            ].map((item, i) => (
+              <div className="col-md-3" key={i}>
+                <div style={{
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: "20px", padding: "36px 20px",
+                  backdropFilter: "blur(10px)",
+                }}>
+                  <div style={{ fontSize: "2rem", marginBottom: "12px" }}>{item.icon}</div>
+                  <h2 style={{ color: "#14b8a6", fontWeight: "800", fontSize: "2.6rem", letterSpacing: "-0.03em", marginBottom: "6px" }}>{item.num}</h2>
+                  <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.9rem", margin: 0 }}>{item.label}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      {/* </section> */} */}
-
-      {/* STATS */}
-      {/* <section
-        className="container-fluid text-center text-white py-5"
-        style={{
-          background: "linear-gradient(to right, #629cf3, #084298)",
-          textcolor: "#f1f8f4",
-        }}
-      >
-        <div className="row , align-items-center, fontcolor: #f1f8f4">
-          {[
-            { num: "500+", text: "Pickups" },
-            { num: "1200+", text: "Customers" },
-            { num: "300+", text: "Recycled" },
-            { num: "20+", text: "Areas" },
-          ].map((item, i) => (
-            <div className="col-md-3" key={i}>
-              <h2>{item.num}</h2>
-              <p>{item.text}</p>
-            </div>
-          ))}
-        </div>
-      </section> */}
-      <section
-  className="container-fluid py-5 position-relative overflow-hidden"
-  style={{
-    background: "linear-gradient(135deg, #123d76, #0d6efd)",
-  }}
->
-  {/* BACKGROUND CIRCLE EFFECTS */}
-  <div
-    style={{
-      position: "absolute",
-      top: "-80px",
-      left: "-80px",
-      width: "250px",
-      height: "250px",
-      background: "rgba(255,255,255,0.08)",
-      borderRadius: "50%",
-    }}
-  ></div>
-
-  <div
-    style={{
-      position: "absolute",
-      bottom: "-100px",
-      right: "-50px",
-      width: "300px",
-      height: "300px",
-      background: "rgba(255,255,255,0.06)",
-      borderRadius: "50%",
-    }}
-  ></div>
-
-  <div className="container position-relative">
-
-    {/* TOP CONTENT */}
-    <div className="text-center text-white mb-5">
-      <span
-        className="px-3 py-2 rounded-pill"
-        style={{
-          backgroundColor: "rgba(255,255,255,0.12)",
-          fontSize: "14px",
-          letterSpacing: "1px",
-        }}
-      >
-        ENOWASTE IMPACT REPORT
-      </span>
-
-      <h1
-        className="fw-bold mt-4"
-        style={{
-          fontSize: "55px",
-          letterSpacing: "1px",
-        }}
-      >
-        Creating A Cleaner Future
-      </h1>
-
-      <p
-        className="mx-auto mt-3"
-        style={{
-          maxWidth: "750px",
-          fontSize: "18px",
-          color: "rgba(255,255,255,0.8)",
-          lineHeight: "1.8",
-        }}
-      >
-        Our waste management solutions are helping communities
-        reduce pollution, improve recycling efficiency, and build
-        a more sustainable environment for future generations.
-      </p>
-    </div>
-
-    {/* STATS SECTION */}
-    <div className="row g-4">
-
-      {[
-        {
-          number: "500+",
-          title: "Successful Pickups",
-          desc: "Daily waste collection services completed efficiently.",
-          icon: "🚛",
-        },
-        {
-          number: "1200+",
-          title: "Happy Customers",
-          desc: "Trusted by households and businesses across regions.",
-          icon: "👨‍👩‍👧",
-        },
-        {
-          number: "300+",
-          title: "Tons Recycled",
-          desc: "Waste processed responsibly through recycling systems.",
-          icon: "♻️",
-        },
-        {
-          number: "20+",
-          title: "Areas Covered",
-          desc: "Expanding eco-friendly services to more communities.",
-          icon: "🌍",
-        },
-      ].map((item, index) => (
-        <div className="col-lg-3 col-md-6" key={index}>
-
-          <div
-            className="h-100 text-center text-white p-4"
-            style={{
-              background: "rgba(255,255,255,0.08)",
-              border: "1px solid rgba(255,255,255,0.15)",
-              borderRadius: "25px",
-              backdropFilter: "blur(12px)",
-              transition: "0.4s ease",
-              boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
-            }}
-          >
-            {/* ICON */}
-            <div
-              className="mb-4 d-flex align-items-center justify-content-center mx-auto"
-              style={{
-                width: "80px",
-                height: "80px",
-                borderRadius: "20px",
-                background: "rgba(255,255,255,0.12)",
-                fontSize: "38px",
-              }}
-            >
-              {item.icon}
-            </div>
-
-            {/* NUMBER */}
-            <h2
-              className="fw-bold"
-              style={{
-                fontSize: "45px",
-                marginBottom: "10px",
-              }}
-            >
-              {item.number}
-            </h2>
-
-            {/* TITLE */}
-            <h5
-              className="fw-semibold mb-3"
-              style={{
-                letterSpacing: "0.5px",
-              }}
-            >
-              {item.title}
-            </h5>
-
-            {/* DESCRIPTION */}
-            <p
-              style={{
-                color: "rgba(255,255,255,0.75)",
-                fontSize: "15px",
-                lineHeight: "1.7",
-              }}
-            >
-              {item.desc}
-            </p>
-          </div>
-
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-
-      {/* CTA */}
-      <section className="text-center py-5">
-        <h2 className="fw-bold text-primary">
-          Join Us for a Cleaner Tomorrow 🌍
-        </h2>
-       <button
-  className="btn btn-primary mt-3 px-4"
-  onClick={handleGetStarted}
->
-          Get Started
-        </button>
       </section>
 
-      {/* FOOTER */}
-      <footer
-        className="text-white text-center p-3"
-        style={{ background: "linear-gradient(to right, #0a58ca, #052c65)" }}
-      >
-        © 2026 EcoGuard Management
-      </footer>
-
-      {/* CSS EFFECTS */}
-      <style>
-        {`
-        .feature-box:hover {
-          transform: translateY(-10px);
-          transition: 0.3s;
-          background: #f9f92e;
-        }
-
-        .service-card {
-          position: relative;
-          overflow: hidden;
-          border-radius: 15px;
-          cursor: pointer;
-        }
-
-        .service-card img {
-          width: 100%;
-          height: 300px;
-          object-fit: cover;
-          transition: 0.4s;
-        }
-
-        .service-card:hover img {
-          transform: scale(1.1);
-          background: #f9f92e;
-        }
-
-        .overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(11,94,215,0.75);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #fff;
-          opacity: 0;
-          transition: 0.4s;
-        }
-
-        .service-card:hover .overlay {
-          opacity: 1;
-        }
-
-        .step-box:hover {
-          background: #eefc30;
-          color: white;
-          transition: 0.3s;
-        }
-        `}
-      </style>
+      {/* ── CTA BANNER ── */}
+      <section style={{ background: "#f0fdfa", padding: "80px 0", textAlign: "center" }}>
+        <div className="container">
+          <p style={{ color: "#14b8a6", fontWeight: "700", letterSpacing: "0.15em", fontSize: "0.8rem", textTransform: "uppercase" }}>Take Action</p>
+          <h2 style={{ fontWeight: "800", color: "#0f172a", fontSize: "2.4rem", letterSpacing: "-0.03em", marginBottom: "16px" }}>
+            Join Us for a Cleaner Tomorrow 🌍
+          </h2>
+          <p style={{ color: "#64748b", fontSize: "1rem", maxWidth: "480px", margin: "0 auto 32px" }}>
+            Schedule your first pickup today and be part of the movement toward a sustainable future.
+          </p>
+          <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>
+            <Link to="/pickup" style={{
+              background: "linear-gradient(135deg, #0f172a, #1e3a5f)",
+              color: "#fff", fontWeight: "700", fontSize: "0.95rem",
+              padding: "14px 32px", borderRadius: "50px", textDecoration: "none",
+              boxShadow: "0 6px 24px rgba(15,23,42,0.25)", transition: "transform 0.2s",
+            }}
+              onMouseOver={e => e.currentTarget.style.transform = "translateY(-2px)"}
+              onMouseOut={e => e.currentTarget.style.transform = "translateY(0)"}
+            >
+              🚛 Request Pickup
+            </Link>
+            <Link to="/contact" style={{
+              background: "transparent", color: "#0f172a",
+              fontWeight: "600", fontSize: "0.95rem",
+              padding: "13px 28px", borderRadius: "50px", textDecoration: "none",
+              border: "2px solid #cbd5e1", transition: "border-color 0.2s, color 0.2s",
+            }}
+              onMouseOver={e => { e.currentTarget.style.borderColor = "#14b8a6"; e.currentTarget.style.color = "#0d9488"; }}
+              onMouseOut={e => { e.currentTarget.style.borderColor = "#cbd5e1"; e.currentTarget.style.color = "#0f172a"; }}
+            >
+              Contact Us
+            </Link>
+          </div>
+        </div>
+      </section>
 
     </div>
   );

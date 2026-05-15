@@ -5,9 +5,11 @@ const UserCrud = () => {
   const [users, setUsers] = useState([]);
 
   const [formData, setFormData] = useState({
-    name: "",
+    fullname: "",
     email: "",
-    phone: "",
+    password: "",
+    role: "USER",
+    isActive: true,
   });
 
   const [editingId, setEditingId] = useState(null);
@@ -36,9 +38,10 @@ const UserCrud = () => {
 
   // HANDLE INPUT
   const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -50,17 +53,19 @@ const UserCrud = () => {
 
     try {
       if (editingId) {
-        await axios.put(`${API}/update/${editingId}`, formData);
+        await axios.put(`${API}/${editingId}`, formData);
         alert("User Updated");
       } else {
-        await axios.post(`${API}/create`, formData);
+        await axios.post(API, formData);
         alert("User Created");
       }
 
       setFormData({
-        name: "",
+        fullname: "",
         email: "",
-        phone: "",
+        password: "",
+        role: "USER",
+        isActive: true,
       });
 
       setEditingId(null);
@@ -68,6 +73,7 @@ const UserCrud = () => {
       fetchUsers();
     } catch (error) {
       console.log(error);
+      alert(error.response?.data?.message || "An error occurred");
     }
   };
 
@@ -75,8 +81,14 @@ const UserCrud = () => {
 
   // DELETE
   const handleDelete = async (id) => {
-    await axios.delete(`${API}/delete/${id}`);
-    fetchUsers();
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        await axios.delete(`${API}/${id}`);
+        fetchUsers();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
 
@@ -84,9 +96,11 @@ const UserCrud = () => {
   // EDIT
   const handleEdit = (user) => {
     setFormData({
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
+      fullname: user.fullname || "",
+      email: user.email || "",
+      password: user.password || "",
+      role: user.role || "USER",
+      isActive: user.isActive !== undefined ? user.isActive : true,
     });
 
     setEditingId(user._id);
@@ -103,84 +117,147 @@ const UserCrud = () => {
 
 
       {/* FORM */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="mb-5 bg-light p-4 rounded shadow-sm">
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter Name"
-          className="form-control mb-3"
-          value={formData.name}
-          onChange={handleChange}
-        />
+        <div className="row">
+          <div className="col-md-6">
+            <input
+              type="text"
+              name="fullname"
+              placeholder="Enter Full Name"
+              className="form-control mb-3"
+              value={formData.fullname}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter Email"
-          className="form-control mb-3"
-          value={formData.email}
-          onChange={handleChange}
-        />
+          <div className="col-md-6">
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter Email"
+              className="form-control mb-3"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
 
-        <input
-          type="text"
-          name="phone"
-          placeholder="Enter Phone"
-          className="form-control mb-3"
-          value={formData.phone}
-          onChange={handleChange}
-        />
+        <div className="row">
+          <div className="col-md-6">
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter Password"
+              className="form-control mb-3"
+              value={formData.password}
+              onChange={handleChange}
+              required={!editingId} // Password usually required on create, might be optional on edit
+            />
+          </div>
+
+          <div className="col-md-6">
+            <select
+              name="role"
+              className="form-select mb-3"
+              value={formData.role}
+              onChange={handleChange}
+            >
+              <option value="USER">User</option>
+              <option value="ADMIN">Admin</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="form-check mb-3">
+          <input
+            type="checkbox"
+            name="isActive"
+            className="form-check-input"
+            checked={formData.isActive}
+            onChange={handleChange}
+            id="isActiveCheck"
+          />
+          <label className="form-check-label" htmlFor="isActiveCheck">
+            Is Active
+          </label>
+        </div>
 
         <button className="btn btn-primary">
           {editingId ? "Update User" : "Add User"}
         </button>
+        {editingId && (
+          <button 
+            type="button" 
+            className="btn btn-secondary ms-2" 
+            onClick={() => {
+              setEditingId(null);
+              setFormData({ fullname: "", email: "", password: "", role: "USER", isActive: true });
+            }}
+          >
+            Cancel Edit
+          </button>
+        )}
 
       </form>
 
 
       {/* TABLE */}
-      <table className="table table-bordered mt-5">
+      <div className="table-responsive">
+        <table className="table table-hover table-bordered align-middle">
 
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          {users.map((user) => (
-            <tr key={user._id}>
-
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.phone}</td>
-
-              <td>
-                <button
-                  className="btn btn-warning me-2"
-                  onClick={() => handleEdit(user)}
-                >
-                  Edit
-                </button>
-
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(user._id)}
-                >
-                  Delete
-                </button>
-              </td>
-
+          <thead className="table-dark">
+            <tr>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
-          ))}
+          </thead>
 
-        </tbody>
-      </table>
+          <tbody>
+
+            {users.map((user) => (
+              <tr key={user._id}>
+
+                <td>{user.fullname}</td>
+                <td>{user.email}</td>
+                <td>
+                  <span className={`badge ${user.role === 'ADMIN' ? 'bg-danger' : 'bg-primary'}`}>
+                    {user.role}
+                  </span>
+                </td>
+                <td>
+                  <span className={`badge ${user.isActive ? 'bg-success' : 'bg-secondary'}`}>
+                    {user.isActive ? 'Active' : 'Inactive'}
+                  </span>
+                </td>
+
+                <td>
+                  <button
+                    className="btn btn-sm btn-warning me-2"
+                    onClick={() => handleEdit(user)}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => handleDelete(user._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+
+              </tr>
+            ))}
+
+          </tbody>
+        </table>
+      </div>
 
     </div>
   );

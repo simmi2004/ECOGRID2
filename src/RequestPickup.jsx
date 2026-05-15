@@ -182,7 +182,6 @@
 // export default RequestPickup;
 import React, { useState } from "react";
 import axios from "axios";
-import emailjs from "@emailjs/browser";
 
 const RequestPickup = () => {
   // ================= STATES =================
@@ -205,49 +204,86 @@ const RequestPickup = () => {
   };
 
   // ================= HANDLE SUBMIT =================
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    try {
-      // BACKEND API CALL
-      const response = await axios.post(
-        "http://localhost:3000/api/pickup",
-        formData
-      );
+  //   try {
+  //     // BACKEND API CALL
+  //     const response = await axios.post(
+  //       "http://localhost:3000/api/pickup",
+  //       formData
+  //     );
 
-      // SEND EMAIL TO ADMIN
-      await emailjs.send(
-        "service_dges4zb",
-        "template_fyn9pdj",
-        {
-          user_name: formData.name,
-          phone: formData.phone,
-          address: formData.address,
-          wasteType: formData.wasteType,
-          pickupDate: formData.pickupDate,
-          message: `New pickup request from ${formData.name}. Phone: ${formData.phone}. Address: ${formData.address}. Waste Type: ${formData.wasteType}. Date: ${formData.pickupDate}`,
-          to_email: "snipersjptg09@gmail.com"
-        },
-        "Fm9TRrLFwjOV7suw-"
-      );
+  //     console.log(response)
+  //     // SEND EMAIL TO ADMIN
+  //     await emailjs.send(
+  //       "service_dges4zb",
+  //       "template_fyn9pdj",
+  //       {
+  //         user_name: formData.name,
+  //         phone: formData.phone,
+  //         address: formData.address,
+  //         wasteType: formData.wasteType,
+  //         pickupDate: formData.pickupDate,
+  //         message: `New pickup request from ${formData.name}. Phone: ${formData.phone}. Address: ${formData.address}. Waste Type: ${formData.wasteType}. Date: ${formData.pickupDate}`,
+  //         to_email: "snipersjptg09@gmail.com"
+  //       },
+  //       "Fm9TRrLFwjOV7suw-"
+  //     );
 
-      setMessage(response.data.message);
+  //     setMessage(response.data.message);
 
-      // CLEAR FORM
-      setFormData({
-        name: "",
-        phone: "",
-        address: "",
-        wasteType: "",
-        pickupDate: "",
-      });
+  //     // CLEAR FORM
+  //     setFormData({
+  //       name: "",
+  //       phone: "",
+  //       address: "",
+  //       wasteType: "",
+  //       pickupDate: "",
+  //     });
 
-    } catch (error) {
-      console.log(error);
-      setMessage("Failed to book pickup");
-    }
-  };
+  //   } catch (error) {
+  //     console.log(error);
+  //     setMessage("Failed to book pickup");
+  //   }
+  // };
+// ================= HANDLE SUBMIT =================
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
+  try {
+
+    // SEND DATA TO BACKEND
+    const response = await axios.post(
+      "http://localhost:3000/api/pickup",
+      formData
+    );
+
+    console.log(response);
+
+    // SUCCESS MESSAGE
+    setMessage(response.data.message);
+
+    // CLEAR FORM
+    setFormData({
+      name: "",
+      phone: "",
+      address: "",
+      wasteType: "",
+      pickupDate: "",
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    // ERROR MESSAGE
+    setMessage(
+      error.response?.data?.message ||
+      "Failed to book pickup"
+    );
+  }
+};
   return (
     <section
       className="py-5"
