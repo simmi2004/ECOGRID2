@@ -605,6 +605,7 @@
 // // export default ContactSection;
 import React, { useState } from "react";
 import axios from "axios";
+const api = import.meta.env.VITE_API_URL
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -630,7 +631,7 @@ const ContactSection = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:3000/api/contact", formData);
+      await axios.post(`${api}/api/contact`, formData);
 
       setSubmitted(true);
       setErrorMsg("");
@@ -653,16 +654,80 @@ const ContactSection = () => {
   };
 
   return (
-    <section
-      className="py-5"
-      style={{
-        background: "linear-gradient(135deg, #eef4ff, #ffffff)",
-      }}
-    >
+    <>
+      <style>{`
+        .contact-section {
+          background: linear-gradient(135deg, #eef4ff, #ffffff);
+          overflow-x: hidden;
+        }
+        
+        .fade-down {
+          animation: fadeDown 1s ease-out forwards;
+        }
+        
+        .slide-right {
+          opacity: 0;
+          animation: slideRight 1s ease-out 0.3s forwards;
+        }
+        
+        .slide-left {
+          opacity: 0;
+          animation: slideLeft 1s ease-out 0.5s forwards;
+        }
+
+        .fade-up-stagger {
+          opacity: 0;
+          animation: fadeUp 0.8s ease-out forwards;
+        }
+
+        .hover-lift {
+          transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+        }
+
+        .input-focus-effect {
+          transition: all 0.3s ease;
+          border: 2px solid transparent;
+          background: #f8f9fa;
+        }
+
+        .input-focus-effect:focus {
+          background: #fff;
+          border-color: #0d6efd;
+          box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+          transform: translateY(-2px);
+        }
+
+        @keyframes fadeDown {
+          from { opacity: 0; transform: translateY(-30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideRight {
+          from { opacity: 0; transform: translateX(-50px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideLeft {
+          from { opacity: 0; transform: translateX(50px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
+      <section className="py-5 contact-section">
       <div className="container">
 
         {/* ================= HEADING ================= */}
-        <div className="text-center mb-5">
+        <div className="text-center mb-5 fade-down">
 
           <h5
             className="fw-bold text-primary"
@@ -701,9 +766,10 @@ const ContactSection = () => {
         <div className="row align-items-center g-5">
 
           {/* ================= LEFT IMAGE ================= */}
-          <div className="col-lg-6">
+          <div className="col-lg-6 slide-right">
 
             <div
+              className="hover-lift"
               style={{
                 position: "relative",
                 overflow: "hidden",
@@ -759,7 +825,7 @@ const ContactSection = () => {
           </div>
 
           {/* ================= CONTACT FORM ================= */}
-          <div className="col-lg-6">
+          <div className="col-lg-6 slide-left">
 
             <div
               className="bg-white p-5"
@@ -780,7 +846,7 @@ const ContactSection = () => {
                   <input
                     type="text"
                     name="name"
-                    className="form-control form-control-lg"
+                    className="form-control form-control-lg input-focus-effect"
                     placeholder="Your Name"
                     value={formData.name}
                     onChange={handleChange}
@@ -793,7 +859,7 @@ const ContactSection = () => {
                   <input
                     type="email"
                     name="email"
-                    className="form-control form-control-lg"
+                    className="form-control form-control-lg input-focus-effect"
                     placeholder="Your Email"
                     value={formData.email}
                     onChange={handleChange}
@@ -806,7 +872,7 @@ const ContactSection = () => {
                   <input
                     type="text"
                     name="subject"
-                    className="form-control form-control-lg"
+                    className="form-control form-control-lg input-focus-effect"
                     placeholder="Subject"
                     value={formData.subject}
                     onChange={handleChange}
@@ -818,7 +884,7 @@ const ContactSection = () => {
                   <textarea
                     name="message"
                     rows="5"
-                    className="form-control form-control-lg"
+                    className="form-control form-control-lg input-focus-effect"
                     placeholder="Write your message..."
                     value={formData.message}
                     onChange={handleChange}
@@ -829,7 +895,7 @@ const ContactSection = () => {
                 {/* BUTTON */}
                 <button
                   type="submit"
-                  className="btn btn-primary w-100 py-3 fw-bold"
+                  className="btn btn-primary w-100 py-3 fw-bold hover-lift"
                   style={{
                     borderRadius: "50px",
                     fontSize: "18px",
@@ -867,17 +933,18 @@ const ContactSection = () => {
             {
               icon: "📧",
               title: "Email",
-              value: "snipersjptg09@gmail.com",
+              value: "simran3824sodhi@gmail.com",
             },
           ].map((item, index) => (
             <div className="col-md-4" key={index}>
 
               <div
-                className="h-100 p-4 bg-white"
+                className="h-100 p-4 bg-white fade-up-stagger hover-lift"
                 style={{
                   borderRadius: "20px",
                   boxShadow: "0 5px 20px rgba(0,0,0,0.08)",
                   transition: "0.3s",
+                  animationDelay: `${0.2 * index + 0.6}s`,
                 }}
               >
 
@@ -923,6 +990,7 @@ const ContactSection = () => {
 
       </div>
     </section>
+    </>
   );
 };
 

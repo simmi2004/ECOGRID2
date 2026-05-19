@@ -450,46 +450,56 @@
 // };
 
 // export default Recycling;
-import React from "react";
+import React, { useState } from "react";
 
 const Recycling = () => {
-  const reuseIdeas = [
+  const [activeStepId, setActiveStepId] = useState(null);
+
+  const stepByStepIdeas = [
     {
+      id: 1,
       title: "Plastic Bottles",
       icon: "🧴",
-      description:
-        "Convert old plastic bottles into plant pots, bird feeders, or storage containers.",
+      steps: [
+        "Empty and rinse the bottle.",
+        "Crush the bottle to save space.",
+        "Keep the cap on or recycle separately based on local rules.",
+        "Place in the designated plastics recycling bin."
+      ]
     },
     {
-      title: "Old Newspapers",
-      icon: "📰",
-      description:
-        "Reuse newspapers for gift wrapping, cleaning glass, or creating paper crafts.",
+      id: 2,
+      title: "Paper & Cardboard",
+      icon: "📦",
+      steps: [
+        "Remove any tape, staples, or plastic labels.",
+        "Flatten all cardboard boxes completely.",
+        "Ensure paper is dry and free from food grease.",
+        "Place in the paper recycling container."
+      ]
     },
     {
-      title: "Glass Jars",
+      id: 3,
+      title: "Glass Jars & Bottles",
       icon: "🫙",
-      description:
-        "Use glass jars as candle holders, kitchen storage, or decorative lighting.",
+      steps: [
+        "Empty contents and rinse the glass lightly.",
+        "Remove metal or plastic lids.",
+        "Sort by color if required by your recycling facility.",
+        "Carefully place in the glass bin to avoid breaking."
+      ]
     },
     {
+      id: 4,
       title: "E-Waste",
       icon: "💻",
-      description:
-        "Donate or recycle old electronics to recover valuable materials safely.",
-    },
-    {
-      title: "Cardboard Boxes",
-      icon: "📦",
-      description:
-        "Turn cardboard into organizers, kids’ projects, or compost material.",
-    },
-    {
-      title: "Old Clothes",
-      icon: "👕",
-      description:
-        "Transform unused clothes into bags, cleaning cloths, or DIY decorations.",
-    },
+      steps: [
+        "Backup and erase all personal data from devices.",
+        "Remove any batteries if possible (recycle separately).",
+        "Find a certified e-waste recycling drop-off point.",
+        "Drop off the device for safe material recovery."
+      ]
+    }
   ];
 
   return (
@@ -592,57 +602,6 @@ const Recycling = () => {
           color: #444;
         }
 
-        /* REUSE SECTION */
-
-        .reuse-section {
-          padding: 90px 8%;
-          background: linear-gradient(to right, #e8f5e9, #f1f8e9);
-        }
-
-        .reuse-section h2 {
-          text-align: center;
-          font-size: 48px;
-          margin-bottom: 65px;
-          color: #1b5e20;
-        }
-
-        .reuse-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 35px;
-        }
-
-        .reuse-card {
-          background: white;
-          padding: 40px 30px;
-          border-radius: 25px;
-          text-align: center;
-          transition: 0.4s;
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-          cursor: pointer;
-        }
-
-        .reuse-card:hover {
-          transform: translateY(-12px);
-          background: #00c853;
-          color: white;
-        }
-
-        .reuse-card .icon {
-          font-size: 65px;
-          margin-bottom: 20px;
-        }
-
-        .reuse-card h3 {
-          font-size: 30px;
-          margin-bottom: 15px;
-        }
-
-        .reuse-card p {
-          font-size: 17px;
-          line-height: 1.8;
-        }
-
         /* BENEFITS */
 
         .benefits-section {
@@ -655,6 +614,157 @@ const Recycling = () => {
           font-size: 48px;
           margin-bottom: 55px;
           color: #00695c;
+        }
+
+        /* STEP-BY-STEP SECTION */
+        .step-by-step-section {
+          padding: 90px 8%;
+          background: #e8f5e9;
+          text-align: center;
+        }
+
+        .step-by-step-section h2 {
+          font-size: 48px;
+          margin-bottom: 15px;
+          color: #1b5e20;
+        }
+
+        .section-subtitle {
+          font-size: 20px;
+          color: #555;
+          margin-bottom: 55px;
+        }
+
+        .step-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 30px;
+        }
+
+        .step-tile {
+          perspective: 1000px;
+          height: 320px;
+          cursor: pointer;
+        }
+
+        .step-tile .tile-front,
+        .step-tile .tile-back {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          backface-visibility: hidden;
+          transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+          border-radius: 20px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+          padding: 30px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .step-tile .tile-front {
+          background: white;
+          transform: rotateY(0deg);
+        }
+
+        .step-tile .tile-back {
+          background: #1b5e20;
+          color: white;
+          transform: rotateY(180deg);
+          align-items: flex-start;
+          justify-content: flex-start;
+          overflow-y: auto;
+          text-align: left;
+        }
+
+        .step-tile.active .tile-front {
+          transform: rotateY(-180deg);
+        }
+
+        .step-tile.active .tile-back {
+          transform: rotateY(0deg);
+        }
+
+        .tile-front .icon {
+          font-size: 70px;
+          margin-bottom: 20px;
+        }
+
+        .tile-front h3 {
+          font-size: 26px;
+          color: #333;
+          margin-bottom: 15px;
+        }
+
+        .tile-front .click-hint {
+          background: #f0f0f0;
+          padding: 8px 16px;
+          border-radius: 20px;
+          font-size: 14px;
+          color: #666;
+          font-weight: 600;
+          transition: 0.3s;
+        }
+        
+        .step-tile:hover .click-hint {
+          background: #a5cd14;
+          color: #1b5e20;
+        }
+
+        .tile-back h3 {
+          font-size: 22px;
+          margin-bottom: 20px;
+          border-bottom: 2px solid rgba(255,255,255,0.3);
+          padding-bottom: 10px;
+          width: 100%;
+        }
+
+        .tile-back ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          width: 100%;
+        }
+
+        .tile-back li {
+          display: flex;
+          align-items: flex-start;
+          margin-bottom: 15px;
+          font-size: 15px;
+          line-height: 1.5;
+          opacity: 0;
+          transform: translateX(-20px);
+          transition: all 0.4s ease;
+        }
+
+        .step-tile.active .tile-back li {
+          opacity: 1;
+          transform: translateX(0);
+          transition-delay: var(--delay);
+        }
+
+        .step-num {
+          background: #a5cd14;
+          color: #1b5e20;
+          min-width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          font-weight: bold;
+          margin-right: 12px;
+          flex-shrink: 0;
+        }
+
+        .tile-back::-webkit-scrollbar {
+          width: 6px;
+        }
+        .tile-back::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.3);
+          border-radius: 10px;
         }
 
         .benefits-container {
@@ -728,9 +838,9 @@ const Recycling = () => {
             font-size: 18px;
           }
 
-          .reuse-section h2,
           .benefits-section h2,
-          .about-section h2 {
+          .about-section h2,
+          .step-by-step-section h2 {
             font-size: 34px;
           }
 
@@ -769,18 +879,35 @@ const Recycling = () => {
           </p>
         </section>
 
-        {/* REUSE SECTION */}
-        <section className="reuse-section">
-          <h2>🌱 Creative Ways to Reuse Waste</h2>
-
-          <div className="reuse-grid">
-            {reuseIdeas.map((item, index) => (
-              <div className="reuse-card" key={index}>
-                <div className="icon">{item.icon}</div>
-
-                <h3>{item.title}</h3>
-
-                <p>{item.description}</p>
+        {/* STEP-BY-STEP RECYCLING SECTION */}
+        <section className="step-by-step-section">
+          <h2>🔄 Step-by-Step Recycling Guides</h2>
+          <p className="section-subtitle">Click a tile to view the recycling process</p>
+          
+          <div className="step-grid">
+            {stepByStepIdeas.map((item) => (
+              <div 
+                key={item.id} 
+                className={`step-tile ${activeStepId === item.id ? 'active' : ''}`}
+                onClick={() => setActiveStepId(activeStepId === item.id ? null : item.id)}
+              >
+                <div className="tile-front">
+                  <div className="icon">{item.icon}</div>
+                  <h3>{item.title}</h3>
+                  <span className="click-hint">Click to see steps</span>
+                </div>
+                
+                <div className="tile-back">
+                  <h3>{item.title} Steps:</h3>
+                  <ul>
+                    {item.steps.map((step, idx) => (
+                      <li key={idx} style={{ '--delay': `${idx * 0.15}s` }}>
+                        <span className="step-num">{idx + 1}</span>
+                        {step}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             ))}
           </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+const api = import.meta.env.VITE_API_URL
 
 const ContactCrud = () => {
   const [contacts, setContacts] = useState([]);
@@ -12,7 +13,7 @@ const ContactCrud = () => {
   });
   const [editingId, setEditingId] = useState(null);
 
-  const API = "http://localhost:3000/api/contact";
+  const API = `${api}/api/contact`
 
   // FETCH CONTACTS
   const fetchContacts = async () => {

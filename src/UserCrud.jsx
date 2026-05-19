@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+const api = import.meta.env.VITE_API_URL
 
 const UserCrud = () => {
   const [users, setUsers] = useState([]);
@@ -14,7 +15,7 @@ const UserCrud = () => {
 
   const [editingId, setEditingId] = useState(null);
 
-  const API = "http://localhost:3000/api/users";
+  const API = `${api}/api/users`;
 
 
 

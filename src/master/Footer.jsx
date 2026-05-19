@@ -241,7 +241,7 @@ const Footer = () => {
                 {[
                   { icon: "📍", text: "Punjab, India" },
                   { icon: "📞", text: "+91 1234567890" },
-                  { icon: "📧", text: "ecoguard@management.com" },
+                  { icon: "📧", text: "simran3824sodhi@gmail.com" },
                 ].map((c, i) => (
                   <div key={i} style={{
                     display: "flex", alignItems: "center", gap: "10px",

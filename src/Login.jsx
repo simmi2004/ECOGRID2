@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+const api = import.meta.env.VITE_API_URL
 
 // Green + Blue accent palette
 // Primary green : #22c55e  (bright green)
@@ -28,7 +29,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/api/users/login", { email, password });
+      const response = await axios.post(`${api}/api/users/login`, { email, password });
       if (response.status === 200 || response.status === 201) {
         localStorage.setItem("userRole", "USER");
         localStorage.setItem("userId", response.data.user._id);

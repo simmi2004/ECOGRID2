@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+const api = import.meta.env.VITE_API_URL
 const PickupCrud = () => {
   const [pickups, setPickups] = useState([]);
   const [formData, setFormData] = useState({
@@ -13,7 +13,7 @@ const PickupCrud = () => {
   });
   const [editingId, setEditingId] = useState(null);
 
-  const API = "http://localhost:3000/api/pickup";
+  const API = `${api}/api/pickup`;
 
   // FETCH PICKUPS
   const fetchPickups = async () => {

@@ -182,6 +182,7 @@
 // export default RequestPickup;
 import React, { useState } from "react";
 import axios from "axios";
+const api = import.meta.env.VITE_API_URL
 
 const RequestPickup = () => {
   // ================= STATES =================
@@ -255,7 +256,7 @@ const handleSubmit = async (e) => {
 
     // SEND DATA TO BACKEND
     const response = await axios.post(
-      "http://localhost:3000/api/pickup",
+      `${api}/api/pickup`,
       formData
     );
 
