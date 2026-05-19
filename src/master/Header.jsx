@@ -47,7 +47,8 @@ function Header() {
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId) {
-      axios.get(`http://localhost:3000/api/users/${userId}`)
+      const api = import.meta.env.VITE_API_URL;
+      axios.get(`${api}/api/users/${userId}`)
         .then((res) => { setUser(res.data); setEditName(res.data.fullname); })
         .catch(() => setUser(null));
     }
@@ -98,7 +99,8 @@ function Header() {
       const userId = localStorage.getItem("userId");
       const payload = { fullname: editName };
       if (editPassword.trim()) payload.password = editPassword;
-      const res = await axios.put(`http://localhost:3000/api/users/${userId}`, payload);
+      const api = import.meta.env.VITE_API_URL;
+      const res = await axios.put(`${api}/api/users/${userId}`, payload);
       setUser(res.data);
       setEditPassword("");
       setEditMsg({ type: "success", text: "Profile updated successfully!" });
