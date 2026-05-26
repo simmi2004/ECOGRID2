@@ -22,18 +22,19 @@ const Login = () => {
     setError("");
     setLoading(true);
 
-    if (email === "simmi2004@gmail.com" && password === "2004") {
-      localStorage.setItem("userRole", "ADMIN");
-      navigate("/admin-dashboard");
-      return;
-    }
-
     try {
       const response = await axios.post(`${api}/api/users/login`, { email, password });
       if (response.status === 200 || response.status === 201) {
-        localStorage.setItem("userRole", "USER");
+        const userRole = response.data.user.role || "USER";
+        localStorage.setItem("userRole", userRole);
         localStorage.setItem("userId", response.data.user._id);
-        navigate("/home");
+        localStorage.setItem("token", response.data.token);
+        
+        if (userRole === "ADMIN" || userRole === "STAFF") {
+            navigate("/admin-dashboard");
+        } else {
+            navigate("/home");
+        }
       }
     } catch (err) {
       setError(err.response?.data?.message || "An error occurred. Please try again.");

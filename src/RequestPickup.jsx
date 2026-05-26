@@ -188,6 +188,7 @@ const RequestPickup = () => {
   // ================= STATES =================
   const [formData, setFormData] = useState({
     name: "",
+    email: "",
     phone: "",
     address: "",
     wasteType: "",
@@ -268,6 +269,7 @@ const handleSubmit = async (e) => {
     // CLEAR FORM
     setFormData({
       name: "",
+      email: "",
       phone: "",
       address: "",
       wasteType: "",
@@ -365,6 +367,19 @@ const handleSubmit = async (e) => {
                   />
                 </div>
 
+                {/* Email */}
+                <div className="mb-3">
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="Email Address"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
                 {/* Phone */}
                 <div className="mb-3">
                   <input
@@ -393,19 +408,34 @@ const handleSubmit = async (e) => {
 
                 {/* Waste Type */}
                 <div className="mb-3">
-                  <select
-                    className="form-control"
-                    name="wasteType"
-                    value={formData.wasteType}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select Waste Type</option>
-                    <option value="Plastic">Plastic</option>
-                    <option value="Paper">Paper</option>
-                    <option value="Organic">Organic</option>
-                    <option value="E-Waste">E-Waste</option>
-                  </select>
+                  <label className="form-label text-muted fw-bold mb-2">Select Waste Types</label>
+                  <div className="d-flex flex-wrap gap-3 p-3" style={{ background: "#f8f9fa", borderRadius: "10px", border: "1px solid #dee2e6" }}>
+                    {["Plastic", "Paper", "Glass", "Metal", "Organic", "E-Waste", "Textiles", "Bulky Waste", "Hazardous", "Mixed"].map((type) => (
+                      <div key={type} className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value={type}
+                          id={`waste-${type.replace(/\s+/g, '-')}`}
+                          checked={formData.wasteType.split(", ").includes(type)}
+                          onChange={(e) => {
+                            const { value, checked } = e.target;
+                            let currentTypes = formData.wasteType ? formData.wasteType.split(", ").filter(Boolean) : [];
+                            if (checked) {
+                              if (!currentTypes.includes(value)) currentTypes.push(value);
+                            } else {
+                              currentTypes = currentTypes.filter((t) => t !== value);
+                            }
+                            setFormData({ ...formData, wasteType: currentTypes.join(", ") });
+                          }}
+                        />
+                        <label className="form-check-label" htmlFor={`waste-${type.replace(/\s+/g, '-')}`} style={{ cursor: "pointer" }}>
+                          {type}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Hidden required input to ensure at least one is selected if we wanted to enforce it, but let's just keep it simple */}
                 </div>
 
                 {/* Date */}

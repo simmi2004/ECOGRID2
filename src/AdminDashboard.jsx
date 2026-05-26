@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import UserCrud from "./UserCrud";
 import PickupCrud from "./PickupCrud";
 import ContactCrud from "./ContactCrud";
+import StaffPanel from "./StaffPanel";
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab]   = useState("dashboard");
@@ -32,6 +33,7 @@ const AdminDashboard = () => {
     { id: "dashboard",  icon: "📊", label: "Overview"    },
     { id: "storeInfo",  icon: "🗂️", label: "Information" },
     { id: "users",      icon: "👥", label: "Users"       },
+    { id: "staff",      icon: "👷", label: "Staff Panel" },
     { id: "pickups",    icon: "🚛", label: "Pickups"     },
     { id: "contacts",   icon: "✉️", label: "Messages"    },
   ];
@@ -311,6 +313,7 @@ const AdminDashboard = () => {
             )}
 
             {activeTab === "users"    && <div className="fade-up"><UserCrud /></div>}
+            {activeTab === "staff"    && <div className="fade-up"><StaffPanel /></div>}
             {activeTab === "pickups"  && <div className="fade-up"><PickupCrud /></div>}
             {activeTab === "contacts" && <div className="fade-up"><ContactCrud /></div>}
 

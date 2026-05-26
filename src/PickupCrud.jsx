@@ -5,6 +5,7 @@ const PickupCrud = () => {
   const [pickups, setPickups] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
+    email: "",
     phone: "",
     address: "",
     wasteType: "",
@@ -52,6 +53,7 @@ const PickupCrud = () => {
 
       setFormData({
         name: "",
+        email: "",
         phone: "",
         address: "",
         wasteType: "",
@@ -81,6 +83,7 @@ const PickupCrud = () => {
   const handleEdit = (pickup) => {
     setFormData({
       name: pickup.name,
+      email: pickup.email || "",
       phone: pickup.phone,
       address: pickup.address,
       wasteType: pickup.wasteType,
@@ -110,6 +113,17 @@ const PickupCrud = () => {
           </div>
           <div className="col-md-6">
             <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              className="form-control"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-6">
+            <input
               type="text"
               name="phone"
               placeholder="Phone"
@@ -130,20 +144,34 @@ const PickupCrud = () => {
               required
             />
           </div>
-          <div className="col-md-4">
-            <select
-              name="wasteType"
-              className="form-control"
-              value={formData.wasteType}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Waste Type</option>
-              <option value="Plastic">Plastic</option>
-              <option value="Paper">Paper</option>
-              <option value="Organic">Organic</option>
-              <option value="E-Waste">E-Waste</option>
-            </select>
+          <div className="col-md-12 mb-3">
+            <label className="form-label fw-bold">Waste Types</label>
+            <div className="d-flex flex-wrap gap-2 p-2 border rounded">
+              {["Plastic", "Paper", "Glass", "Metal", "Organic", "E-Waste", "Textiles", "Bulky Waste", "Hazardous", "Mixed"].map((type) => (
+                <div key={type} className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value={type}
+                    id={`crud-waste-${type.replace(/\s+/g, '-')}`}
+                    checked={formData.wasteType.split(", ").includes(type)}
+                    onChange={(e) => {
+                      const { value, checked } = e.target;
+                      let currentTypes = formData.wasteType ? formData.wasteType.split(", ").filter(Boolean) : [];
+                      if (checked) {
+                        if (!currentTypes.includes(value)) currentTypes.push(value);
+                      } else {
+                        currentTypes = currentTypes.filter((t) => t !== value);
+                      }
+                      setFormData({ ...formData, wasteType: currentTypes.join(", ") });
+                    }}
+                  />
+                  <label className="form-check-label" htmlFor={`crud-waste-${type.replace(/\s+/g, '-')}`}>
+                    {type}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="col-md-4">
             <input
@@ -180,6 +208,7 @@ const PickupCrud = () => {
               setEditingId(null);
               setFormData({
                 name: "",
+                email: "",
                 phone: "",
                 address: "",
                 wasteType: "",
@@ -199,6 +228,7 @@ const PickupCrud = () => {
           <thead className="table-light">
             <tr>
               <th>Name</th>
+              <th>Email</th>
               <th>Phone</th>
               <th>Address</th>
               <th>Waste Type</th>
@@ -211,6 +241,7 @@ const PickupCrud = () => {
             {pickups.map((pickup) => (
               <tr key={pickup._id}>
                 <td>{pickup.name}</td>
+                <td>{pickup.email || "N/A"}</td>
                 <td>{pickup.phone}</td>
                 <td>{pickup.address}</td>
                 <td>{pickup.wasteType}</td>
@@ -241,7 +272,7 @@ const PickupCrud = () => {
             ))}
             {pickups.length === 0 && (
               <tr>
-                <td colSpan="7" className="text-center py-4 text-muted">
+                <td colSpan="8" className="text-center py-4 text-muted">
                   No pickup requests found.
                 </td>
               </tr>
