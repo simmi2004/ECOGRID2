@@ -48,7 +48,7 @@ function Header() {
     const userId = localStorage.getItem("userId");
     if (userId) {
       const api = import.meta.env.VITE_API_URL;
-      axios.get(`${api}/api/users/${userId}`)
+      axios.get(`${api}/api/users/me/${userId}`)
         .then((res) => { setUser(res.data); setEditName(res.data.fullname); })
         .catch(() => setUser(null));
     }
